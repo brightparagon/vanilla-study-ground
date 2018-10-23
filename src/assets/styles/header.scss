@@ -1,0 +1,24 @@
+.header {
+  @include e('top') {
+    display: flex;
+
+    @include m('left-top') {
+      width: 33px;
+      height: 30px;
+      background-image: url("../images/frames/header_top_left.png");
+    }
+
+    @include m('horizontal') {
+      flex-grow: 1;
+      height: 30px;
+      background-image: url("../images/frames/border_horizontal.png");
+      background-size: 100% 100%;
+    }
+
+    @include m('right-top') {
+      width: 33px;
+      height: 30px;
+      background-image: url("../images/frames/header_top_right.png");
+    }
+  }
+}

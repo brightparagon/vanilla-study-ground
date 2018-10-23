@@ -1,4 +1,11 @@
-# vainilla-study-ground
+# 💣 The MineSweeper
+A web-enabled Minesweeper game with vanilla JavaScript
 
-- [ ] 바닐라 JS로 만들기
-- [ ] CRUD 구현하기
+## ✨ Features
+- Username
+- Ranking
+- Left + Right mouse click
+- 3 levels of difficulty
+    - Beginner, Intermediate, Expert
+- Width, Height can be **customizable**
+
