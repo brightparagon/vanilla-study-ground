@@ -1,4 +1,4 @@
-# vainilla-study-ground
+# vanilla-study-ground
 
 ## 개별 프로젝트 소개 및 정리
 
