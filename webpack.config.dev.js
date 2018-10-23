@@ -24,7 +24,7 @@ const regExps = {
   js: /\.(js|mjs)$/,
   styleSheet: /\.(sc|sa|c)ss$/,
   imageFiles: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
-  fileLoaderExcluded: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+  fileLoaderExcluded: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/, /\.(sc|sa|c)ss$/],
   nodeModules: /node_modules/,
 };
 
@@ -73,9 +73,13 @@ const loaderOptions = {
         loader: require.resolve('postcss-loader'),
         options: {
           ident: 'postcss',
-          plugins: () => [
-            require.resolve('postcss-flexbugs-fixes'),
-            require.resolve('postcss-preset-env')({
+          plugins: loader => [
+            // eslint-disable-next-line global-require
+            require('postcss-import')({ root: loader.resourcePath }),
+            // eslint-disable-next-line global-require
+            require('postcss-flexbugs-fixes'),
+            // eslint-disable-next-line global-require
+            require('postcss-preset-env')({
               autoprefixer: {
                 flexbox: 'no-2009',
               },
@@ -87,24 +91,24 @@ const loaderOptions = {
       { loader: require.resolve('sass-loader') },
     ],
   },
-  fileLoader: {
+  assetLoader: {
     oneOf: [
       {
         test: regExps.imageFiles,
         loader: require.resolve('url-loader'),
         options: {
           limit: 10000,
-          name: '/assets/[name].[hash:8].[ext]',
+          name: 'static/media/[name].[hash:8].[ext]',
+        },
+      },
+      {
+        exclude: regExps.fileLoaderExcluded,
+        loader: require.resolve('file-loader'),
+        options: {
+          name: 'static/media/[name].[hash:8].[ext]',
         },
       },
     ],
-  },
-  urlLoader: {
-    exclude: regExps.fileLoaderExcluded,
-    loader: require.resolve('file-loader'),
-    options: {
-      name: 'static/assets/[name].[hash:8].[ext]',
-    },
   },
 };
 
@@ -136,8 +140,7 @@ module.exports = {
       loaderOptions.eslintLoader,
       loaderOptions.babelLoader,
       loaderOptions.styleLoader,
-      loaderOptions.fileLoader,
-      loaderOptions.urlLoader,
+      loaderOptions.assetLoader,
     ],
   },
   plugins: [
